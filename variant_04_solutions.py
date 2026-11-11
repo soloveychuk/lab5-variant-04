@@ -33,3 +33,10 @@ print("---")
 print("Історія ітерацій:")
 for i, c in enumerate(history, 1):
     print(f"Ітерація {i}: x = {c}")
+with open("results.txt", "w", encoding="utf-8") as file:
+    file.write("Результати обчислень:\n")
+    file.write(f"Корінь: {root:.6f}\n")
+    file.write("Історія ітерацій:\n")
+    file.write(f"Оцінка кількості ітерацій: {estimation:.1f}, фактична кількість ітерацій: {iterations}\n")
+    for i, c in enumerate(history, 1):
+        file.write(f"Ітерація {i}: x = {c}\n")

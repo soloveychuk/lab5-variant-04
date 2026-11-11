@@ -15,7 +15,7 @@ def bisections(func, a, b, eps = 0.00003):
         c=(a+b)/2
         fc=func(c)
         iterations +=1
-        history.append(round(c,6))
+        history.append((iterations, a, b, c, fc))
         if fc == 0:
             return c, iterations, history, estimation
         if func(a)*fc < 0:
@@ -25,18 +25,37 @@ def bisections(func, a, b, eps = 0.00003):
     root = (a+b)/2
 
     return root, iterations, history, estimation
-root, iterations, history, estimation = bisections(target_function, 0.5, 1)
-print("Корінь рівняння:", round(root, 6))
 
-print(f"Оцінка кількості ітерацій: {estimation:.1f}, фактична кількість ітерацій: {iterations}")
-print("---")
-print("Історія ітерацій:")
-for i, c in enumerate(history, 1):
-    print(f"Ітерація {i}: x = {c}")
-with open("results.txt", "w", encoding="utf-8") as file:
-    file.write("Результати обчислень:\n")
-    file.write(f"Корінь: {root:.6f}\n")
-    file.write("Історія ітерацій:\n")
-    file.write(f"Оцінка кількості ітерацій: {estimation:.1f}, фактична кількість ітерацій: {iterations}\n")
-    for i, c in enumerate(history, 1):
-        file.write(f"Ітерація {i}: x = {c}\n")
+
+
+def save_results_to_file(root, iterations, history, estimation):
+    with open("results.txt", "w", encoding="utf-8") as file:
+        file.write(f"Корінь: {root:.6f}\n")
+        file.write(f"Оцінка ітерацій: {estimation:.1f}\n")
+        file.write(f"Кількість ітерацій: {iterations}\n")
+        file.write(f'{"Історія ітерацій:":^50}\n')
+
+        for i, a, b, c, fc in history:
+            file.write(f"{i}: a={a:.6f}, b={b:.6f}, c={c:.6f}, f(c)={fc:.6f}\n")
+
+
+def main():
+    a = 0.7
+    b = 1
+    eps = 0.00003
+
+    root, iterations, history, estimation = bisections(target_function, a, b, eps)
+
+    print("Корінь рівняння:", round(root, 6))
+    print(f"Оцінка кількості ітерацій: {estimation:.1f}")
+    print(f"Фактична кількість ітерацій: {iterations}")
+    print("Історія ітерацій:")
+
+    for i, a, b, c, fc in history:
+        print(f"{i}: a={a:.6f}, b={b:.6f}, c={c:.6f}, f(c)={fc:.6f}")
+
+    save_results_to_file(root, iterations, history, estimation)
+
+
+if __name__ == "__main__":
+    main()

@@ -30,16 +30,21 @@ def bisections(func, a, b, eps = 0.00003):
 
 
 
-def save_results_to_file(root, iterations, history, estimation): #функція запису даних у файл
-    with open("results_variant_XX.txt", "w", encoding="utf-8") as file:
+def save_results_to_file(root, iterations, history, estimation):
+    with open("results_variant_04.txt", "w", encoding="utf-8") as file:
         file.write(f"Корінь: {root:.6f}\n")
         file.write(f"Оцінка ітерацій: {estimation:.1f}\n")
         file.write(f"Кількість ітерацій: {iterations}\n")
-        file.write(f'{"Історія ітерацій:":^50}\n') 
+        file.write(f'{"Історія ітерацій:":^64}\n')
 
-        #перебираємо ітерації і дял кожної записуємо дані в окремий рядок
-        for i, a, b, c, fc in history: 
-            file.write(f"{i}: a={a:.6f}, b={b:.6f}, c={c:.6f}, f(c)={fc:.6f}\n") 
+        file.write("-" * 62 + "\n")
+        file.write(f"| {'N':^3} | {'a':^10} | {'b':^10} | {'c':^10} | {'f(c)':^12} |\n")
+        file.write("-" * 62 + "\n")
+
+        for i, a, b, c, fc in history:
+            file.write(f"| {i:^3} | {a:>10.6f} | {b:>10.6f} | {c:>10.6f} | {fc:>12.6f} |\n")
+
+        file.write("-" * 62 + "\n")
 
 
 def main(): #головна ф-ція програми
